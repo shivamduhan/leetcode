@@ -12,7 +12,7 @@ int trap(int* height, int heightSize){ //time complexity O(n), space complexity 
             else { //current height lower than max height on the left side
                 water = water + left_max - height[left_ptr]; //diff. between max and current height
             }
-            left++;
+            left_ptr++;
         }
         else { //right height is deciding factor
             if (height[right_ptr] > right_max) { //current height on the right greater than max height
@@ -21,7 +21,7 @@ int trap(int* height, int heightSize){ //time complexity O(n), space complexity 
             else {
                 water = water + right_max - height[right_ptr]; //add water trapped at this location
             }
-            right--;
+            right_ptr--;
         }
 
     }
