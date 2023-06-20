@@ -7,3 +7,5 @@ int maxProfit(int* prices, int pricesSize){
     }
     return max;
 }
+
+//Greedy algorithm, O(n) time, O(1) space
