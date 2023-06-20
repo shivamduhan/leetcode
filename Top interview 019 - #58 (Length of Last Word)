@@ -11,3 +11,6 @@ int lengthOfLastWord(char * s){
     return last_word;
 
 }
+
+//Time complexity O(n)
+//Space complexity O(1)
