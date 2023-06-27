@@ -7,17 +7,11 @@ int digitSquareSum(int n) {
     }
     return sum;
 }
-
 bool isHappy(int n) {
-    int slow = n, fast = n; //detect cycles
-    while (true) {
+    int slow = n, fast = digitSquareSum(n); //detect cycles
+    while (slow!=fast) {
         slow = digitSquareSum(slow); //slow is updated once
-        fast = digitSquareSum(digitSquareSum(fast)); //fast is updated twice
-        if (slow == fast) {
-            if (slow == 1)
-                return true; //process ends in 1
-            else
-                return false;
+        fast = digitSquareSum(digitSquareSum(fast)); //fast is updated twice        
         }
-    }
+    return slow == 1;
 }
