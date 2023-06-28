@@ -17,19 +17,19 @@ HashTable* hash_table_create(int num_buckets) {
 }
 
 Entry* hash_table_get(HashTable* hash_table, int key) {
-    int bucket_index = abs(key) % hash_table->num_buckets; //retriece value of key
+    int bucket_index = abs(key) % hash_table->num_buckets; //hash to get which bucket to search
     Entry* entry = hash_table->buckets[bucket_index];
-    while (entry != NULL && entry->key != key) {entry = entry->next;}
+    while (entry != NULL && entry->key != key) {entry = entry->next;} //traverse linked list at that index
     return entry;
 }
 
 void hash_table_put(HashTable* hash_table, int key, int value) {
-    int bucket_index = abs(key) % hash_table->num_buckets;
-    Entry* existing_entry = hash_table_get(hash_table, key);
+    int bucket_index = abs(key) % hash_table->num_buckets; //hash to get which bucket to store val
+    Entry* existing_entry = hash_table_get(hash_table, key); //get existing val at key to check collisions
     if (existing_entry != NULL) {
-        existing_entry->value = value;
+        existing_entry->value = value; //no collisions, just add
     } else {
-        Entry* new_entry = malloc(sizeof(Entry));
+        Entry* new_entry = malloc(sizeof(Entry)); //collision, add node at beginning of linked list
         new_entry->key = key;
         new_entry->value = value;
         new_entry->next = hash_table->buckets[bucket_index];
@@ -46,21 +46,21 @@ void hash_table_destroy(HashTable* hash_table) {
             entry = next_entry;
         }
     }
-    free(hash_table->buckets);
-    free(hash_table);
+    free(hash_table->buckets); //deallocate memory for buckets
+    free(hash_table); //deallocate memory for table
 }
 
 int longestConsecutive(int * nums, int numsSize) {
     HashTable* hash_table = hash_table_create(numsSize);
-    for (int i = 0; i < numsSize; i++) {hash_table_put(hash_table, nums[i], i);}
+    for (int i = 0; i < numsSize; i++) {hash_table_put(hash_table, nums[i], i);} //populate hash table
     int longestStreak = 0;
     for (int i = 0; i < numsSize; i++) {
-        if (!hash_table_get(hash_table, nums[i] - 1)) {
-            int currentNum = nums[i];
+        if (!hash_table_get(hash_table, nums[i] - 1)) { //for each nums[i] search for nums[i] - 1 to get consecutive
+            int currentNum = nums[i]; //nums[i] is now smallest candidate number
             int currentStreak = 1;
-            while (hash_table_get(hash_table, currentNum + 1)) {
+            while (hash_table_get(hash_table, currentNum + 1)) { //check if next consecutive number exists in hash map
                 currentNum += 1;
-                currentStreak += 1;
+                currentStreak += 1; //consecutive number is in hash map
             }
             if (currentStreak > longestStreak) {
                 longestStreak = currentStreak;
