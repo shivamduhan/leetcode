@@ -1,15 +1,18 @@
 struct ListNode* removeNthFromEnd(struct ListNode* head, int n){
-    struct ListNode* dummy = malloc(sizeof(struct ListNode));
-    dummy->next = head;
-    struct ListNode * move = dummy, * stay = dummy;
-    for (int i = 1; i <= n + 1; i++) { //this is 
-        move = move -> next; //set up a gap of n nodes between move and stay
+    struct ListNode * move = head, * stay = head; //init nodes
+    if (head == NULL || head -> next == NULL) {return NULL;} //deal with edge cases
+    for (int i = 0; i < n; i++) { //this is to ensure stay will be 1 before node to be reversed
+        if (move -> next) {move=move->next;} //set up a gap of n+1 nodes between move and stay
+        else {
+            struct ListNode * newhead = head -> next;
+            free(head);
+            return newhead;
+        }
     }
-    while (move != NULL) {
-        move = move -> next;
+    while (move->next != NULL) {
+        move = move -> next; //let move go to the end of the list
         stay = stay -> next; //now stay is just before the node to be removed
     }
     stay->next = stay->next->next; //skip the nth node from end
-    struct ListNode * result = dummy -> next;
-    free(dummy);
-    return result;
+    return head;
+}
