@@ -16,5 +16,5 @@ struct ListNode* partition(struct ListNode* head, int x){
     }
     bigList->next = NULL; //avoid cycle
     smallerList->next=bigHead->next; //connect partitions
-    return smallHead->next;
+    return smallHead->next; //return original head
 }
