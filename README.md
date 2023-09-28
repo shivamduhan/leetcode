@@ -1,2 +1,2 @@
 # leetcode
-interview practice
+interview practice in C and Python
